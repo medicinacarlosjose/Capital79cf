@@ -235,3 +235,15 @@ select option {
   width: 42px;
   height: auto;
 }
+
+#pinModal {
+  z-index: 9999;
+}
+
+#pinInput {
+  background: #1b1e2b;
+  border: 1px solid var(--gold);
+  color: #fff;
+  padding: 10px;
+  width: 120px;
+}

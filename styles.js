@@ -116,7 +116,7 @@ function generateMonths() {
   const now = new Date();
 
 for (let i = 0; i < monthsToShow; i++) {
-    const d = new Date(now.getFullYear(), now.getMonth() + i, 1);
+const d = new Date(now.getFullYear(), now.getMonth() + 1 + i, 1);
     const key = `${months[d.getMonth()]}-${d.getFullYear()}`;
     if (!data[key]) data[key] = [];
 
@@ -196,7 +196,9 @@ function loadMoreMonths() {
 function updateTop() {
   income = parseFloat(totalIncome.value) || 0;
   const now = new Date();
-  const key = `${months[now.getMonth()]}-${now.getFullYear()}`;
+const next = new Date(now.getFullYear(), now.getMonth() + 1, 1);
+const key = `${months[next.getMonth()]}-${next.getFullYear()}`;
+
 
   const arr = data[key] || [];
   const totalMes = arr.reduce((s, e) => s + e.value, 0);
@@ -235,6 +237,7 @@ function persist() {
   updateTop();
 })();
 
+/* ===================== EXPORT / IMPORT ===================== */
 function exportData() {
   const backup = {
     financeFlowData: data,
@@ -249,11 +252,10 @@ function exportData() {
   );
 
   const url = URL.createObjectURL(blob);
-
   const a = document.createElement("a");
+
   a.href = url;
   a.download = `capital79-backup-${new Date().toISOString().slice(0,10)}.json`;
-
   document.body.appendChild(a);
   a.click();
 
@@ -272,26 +274,17 @@ function importData(event) {
       const imported = JSON.parse(e.target.result);
 
       if (!imported.financeFlowData || !imported.financeFlowIncome) {
-        alert("Arquivo inválido ou corrompido.");
+        alert("Arquivo inválido.");
         return;
       }
 
-      if (!confirm("Deseja substituir TODOS os dados atuais por este backup?")) {
-        return;
-      }
+      if (!confirm("Deseja substituir TODOS os dados atuais?")) return;
 
-      // Restaurar dados
       data = imported.financeFlowData;
       totalIncome.value = imported.financeFlowIncome;
 
-      localStorage.setItem(
-        "financeFlowData",
-        JSON.stringify(imported.financeFlowData)
-      );
-      localStorage.setItem(
-        "financeFlowIncome",
-        imported.financeFlowIncome
-      );
+      localStorage.setItem("financeFlowData", JSON.stringify(data));
+      localStorage.setItem("financeFlowIncome", totalIncome.value);
 
       if (imported.financeFlowTheme) {
         localStorage.setItem("financeFlowTheme", imported.financeFlowTheme);
@@ -305,64 +298,15 @@ function importData(event) {
       updateTop();
 
       alert("Dados importados com sucesso!");
-
     } catch (err) {
-      alert("Erro ao importar o arquivo.");
-      console.error(err);
+      alert("Erro ao importar arquivo.");
     }
   };
 
   reader.readAsText(file);
 }
 
-moreBtn.className = "months-more-btn";
-
-const pinModal = document.getElementById("pinLock");
-const pinInput = document.getElementById("pinInput");
-const pinMessage = document.getElementById("pinMessage");
-
-function hashPin(pin) {
-  return btoa(pin.split("").reverse().join(""));
-}
-
-function checkPinOnStart() {
-  const savedPin = localStorage.getItem("capital79_pin");
-
-  pinModal.classList.remove("hidden");
-
-  if (!savedPin) {
-    pinMessage.innerText = "Crie um PIN de 4 dígitos";
-  } else {
-    pinMessage.innerText = "Digite seu PIN";
-  }
-}
-
-function confirmPin() {
-  const pin = pinInput.value;
-
-  if (pin.length !== 4) {
-    alert("PIN deve ter 4 dígitos");
-    return;
-  }
-
-  const savedPin = localStorage.getItem("capital79_pin");
-
-  if (!savedPin) {
-    localStorage.setItem("capital79_pin", hashPin(pin));
-    pinModal.classList.add("hidden");
-    pinInput.value = "";
-    return;
-  }
-
-  if (hashPin(pin) === savedPin) {
-    pinModal.classList.add("hidden");
-    pinInput.value = "";
-  } else {
-    alert("PIN incorreto");
-    pinInput.value = "";
-  }
-}
-
+/* ===================== SERVICE WORKER ===================== */
 if ("serviceWorker" in navigator) {
   window.addEventListener("load", () => {
     navigator.serviceWorker.register("sw.js")
