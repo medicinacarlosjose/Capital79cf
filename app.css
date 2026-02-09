@@ -1,0 +1,237 @@
+:root {
+  --bg-dark: #0d0f1a;
+  --bg-light: #f5f6fa;
+  --gold: #d4af37;
+  --text-dark: #ffffff;
+  --text-light: #1e1e1e;
+  --danger: #ff5c5c;
+  --success: #4caf50;
+}
+
+body {
+  margin: 0;
+  font-family: 'Segoe UI', sans-serif;
+  background: var(--bg-dark);
+  color: var(--text-dark);
+}
+
+body.light {
+  background: var(--bg-light);
+  color: var(--text-light);
+}
+
+.top-bar {
+  padding: 20px;
+  border-bottom: 1px solid #333;
+}
+
+.app-title {
+  color: var(--gold);
+  letter-spacing: 2px;
+}
+
+.summary {
+  display: flex;
+  gap: 15px;
+  flex-wrap: wrap;
+  align-items: center;
+}
+
+/* 🔧 CORREÇÃO DOS SELECTS */
+input, select {
+  background-color: #1b1e2b;
+  border: 1px solid var(--gold);
+  color: #fff;
+  padding: 6px;
+}
+
+select option {
+  background-color: #1b1e2b;
+  color: #fff;
+}
+
+button {
+  background: transparent;
+  border: 1px solid var(--gold);
+  color: var(--gold);
+  padding: 6px 12px;
+  cursor: pointer;
+}
+
+button:hover {
+  background: var(--gold);
+  color: #000;
+}
+
+main {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 16px;
+  padding: 20px;
+}
+
+.month-card {
+  border: 1px solid #333;
+  padding: 15px;
+  border-radius: 8px;
+}
+
+.month-card h3 {
+  color: var(--gold);
+  margin-bottom: 10px;
+}
+
+.summary-line {
+  display: flex;
+  justify-content: space-between;
+  cursor: pointer;
+  margin: 6px 0;
+}
+
+.summary-line span {
+  font-weight: bold;
+}
+
+.details {
+  font-size: 13px;
+  margin-left: 10px;
+  margin-top: 5px;
+}
+
+.details div {
+  border-bottom: 1px solid #333;
+  padding: 3px 0;
+}
+
+.hidden {
+  display: none;
+}
+
+/* MODAIS */
+.modal {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.85);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.modal.hidden {
+  display: none;
+}
+
+.modal-content {
+  background: #111;
+  padding: 20px;
+  border-radius: 10px;
+  width: 420px;
+}
+
+.modal-content h2 {
+  margin-top: 0;
+  color: var(--gold);
+}
+
+.manage-item {
+  display: flex;
+  justify-content: space-between;
+  border-bottom: 1px solid #333;
+  padding: 6px 0;
+  font-size: 13px;
+}
+
+.manage-item button {
+  border-color: var(--danger);
+  color: var(--danger);
+}
+
+/* ============================= */
+/* AJUSTES FINOS – VISUAL */
+/* ============================= */
+
+/* Total do mês (branco + vermelho) */
+.month-total {
+  margin-top: 6px;
+  font-size: 14px;
+  font-weight: bold;
+  color: #ff4d4d;
+}
+
+/* Garantir contraste dos selects */
+select {
+  background-color: #1b1e2b !important;
+  color: #ffffff !important;
+}
+
+select option {
+  background-color: #1b1e2b;
+  color: #ffffff;
+}
+
+/* Botões de gerenciamento */
+.manage-btn {
+  border: 1px solid #ff4d4d;
+  color: #ff4d4d;
+}
+
+.manage-btn:hover {
+  background: #ff4d4d;
+  color: #000;
+}
+
+.manage-btn.disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+  filter: grayscale(100%);
+}
+
+/* ===================== */
+/* CORREÇÃO DE CLIQUE */
+/* ===================== */
+
+.top-bar button {
+  pointer-events: auto;
+  position: relative;
+  z-index: 10;
+}
+
+.modal.hidden {
+  display: none !important;
+}
+
+.trash-btn {
+  background: transparent;
+  border: none;
+  color: #ff5c5c;
+  cursor: pointer;
+  font-size: 16px;
+  opacity: 0.6;
+}
+
+.trash-btn:hover {
+  opacity: 1;
+  transform: scale(1.1);
+}
+
+.months-more-btn {
+  margin-top: 20px;
+  text-align: center;
+}
+
+.months-more-btn button {
+  font-size: 14px;
+  padding: 8px 20px;
+  border-radius: 20px;
+}
+
+.app-title {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.app-logo {
+  width: 42px;
+  height: auto;
+}

@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <title>CAPITAL 79</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="manifest" href="manifest.json">
+  <link rel="stylesheet" href="app.css">
+</head>
+
+<body>
+<div id="pinLock" class="modal hidden">
+  <div class="modal-content" style="text-align:center">
+    <h2>🔒 Segurança</h2>
+    <p id="pinMessage">Digite seu PIN</p>
+
+    <input
+      id="pinInput"
+      type="password"
+      inputmode="numeric"
+      maxlength="4"
+      placeholder="****"
+      style="text-align:center;font-size:20px;"
+    >
+
+    <div style="margin-top:15px">
+      <button onclick="confirmPin()">Confirmar</button>
+    </div>
+  </div>
+</div>
+
+<header class="top-bar">
+<h1 class="app-title">
+  <img src="logo.png" alt="Logo Capital 79" class="app-logo">
+  CAPITAL 79
+</h1>
+
+  <div class="summary">
+  <div>
+    <label>Receita</label>
+    <input type="number" id="totalIncome" placeholder="R$ 0,00">
+  </div>
+
+  <div>
+    <label>Despesa (Mês Atual)</label>
+    <span id="currentExpense">R$ 0,00</span>
+  </div>
+
+  <div>
+    <label>Resultado</label>
+    <span id="balance">R$ 0,00</span>
+  </div>
+
+ <button type="button" onclick="toggleTheme()">🌗</button>
+
+<button type="button" onclick="openModal()">＋ Lançamento</button>
+<button type="button" onclick="exportData()">⬇️ Exportar</button>
+
+<label style="cursor:pointer; border:1px solid #d4af37; padding:6px 12px; color:#d4af37;">
+  ⬆️ Importar
+  <input
+    type="file"
+    accept=".json"
+    style="display:none"
+    onchange="importData(event)"
+  >
+</label>
+
+</div>
+</header>
+
+<main id="monthsContainer"></main>
+
+<!-- MODAL NOVO LANÇAMENTO -->
+<div id="modal" class="modal hidden">
+  <div class="modal-content">
+    <h2>Novo Lançamento</h2>
+
+    <input id="expenseValue" type="number" placeholder="Valor">
+
+    <select id="expenseType">
+      <option value="vista">À vista</option>
+      <option value="parcelado">Parcelado</option>
+      <option value="recorrente">Recorrente</option>
+    </select>
+
+    <select id="expenseCard" class="hidden">
+      <option>Visa</option>
+      <option>Porto</option>
+      <option>Banese</option>
+      <option>Master</option>
+      <option>NuBank</option>
+      <option>Bradesco</option>
+      <option>Outro</option>
+    </select>
+
+    <input id="otherCard" class="hidden" placeholder="Outro cartão">
+
+    <input id="expenseInstallments" class="hidden" type="number" placeholder="Parcelas">
+
+    <select id="expensePayer">
+      <option>Carlos França</option>
+      <option>Outro</option>
+    </select>
+
+    <input id="otherPayer" class="hidden" placeholder="Nome de quem pagou">
+
+    <select id="expenseMonth">
+      <option>JAN</option><option>FEV</option><option>MAR</option>
+      <option>ABR</option><option>MAI</option><option>JUN</option>
+      <option>JUL</option><option>AGO</option><option>SET</option>
+      <option>OUT</option><option>NOV</option><option>DEZ</option>
+    </select>
+<button onclick="saveExpense()">Salvar</button>
+<button onclick="closeModal()">Cancelar</button>
+  </div>
+</div>
+
+<!-- MODAL GERENCIAMENTO -->
+<div id="manageModal" class="modal hidden">
+  <div class="modal-content">
+    <h2>Gerenciar Lançamentos</h2>
+
+    <div id="manageList"></div>
+
+    <div style="display:flex; gap:10px; margin-top:15px;">
+      <button id="btnDeleteSelected">🗑️ Apagar selecionados</button>
+      <button onclick="closeManageModal()">Fechar</button>
+    </div>
+  </div>
+</div>
+
+<script src="styles.js"></script>
+</body>
+</html>
