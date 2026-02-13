@@ -1,249 +1,178 @@
 :root {
-  --bg-dark: #0d0f1a;
-  --bg-light: #f5f6fa;
-  --gold: #d4af37;
-  --text-dark: #ffffff;
-  --text-light: #1e1e1e;
-  --danger: #ff5c5c;
-  --success: #4caf50;
+  --royal-red-1:#3b0000;
+  --royal-red-2:#5e0000;
+  --royal-red-3:#7a0000;
+
+  --gold-main:#d4af37;
+  --gold-soft:#f7e7a9;
+  --gold-glow:rgba(212,175,55,0.45);
+
+  --light-bg:#f4efe6;
+  --light-card:#ffffff;
+  --light-gold:#c6a54a;
 }
 
-body {
-  margin: 0;
-  font-family: 'Segoe UI', sans-serif;
-  background: var(--bg-dark);
-  color: var(--text-dark);
+/* BASE */
+body{
+  margin:0;
+  font-family:"Segoe UI",sans-serif;
+  background:linear-gradient(145deg,var(--royal-red-1),var(--royal-red-2),var(--royal-red-3));
+  color:#fff;
+  transition:0.4s;
 }
 
-body.light {
-  background: var(--bg-light);
-  color: var(--text-light);
+body.light{
+  background:linear-gradient(145deg,#f4efe6,#ebe2d2,#e2d6c3);
+  color:#222;
 }
 
-.top-bar {
-  padding: 20px;
-  border-bottom: 1px solid #333;
+/* PIN BLOQUEIO TOTAL */
+#pinLock{
+  position:fixed;
+  inset:0;
+  background:#000;
+  z-index:99999;
+  display:flex;
+  justify-content:center;
+  align-items:center;
 }
 
-.app-title {
-  color: var(--gold);
-  letter-spacing: 2px;
+#pinLock input{
+  background:transparent;
+  border:none;
+  border-bottom:1px solid var(--gold-main);
+  color:#fff;
+  text-align:center;
+  font-size:22px;
+  outline:none;
+  width:120px;
 }
 
-.summary {
-  display: flex;
-  gap: 15px;
-  flex-wrap: wrap;
-  align-items: center;
+/* TOPO */
+.top-bar{
+  padding:45px 60px 20px 60px;
 }
 
-/* 🔧 CORREÇÃO DOS SELECTS */
-input, select {
-  background-color: #1b1e2b;
-  border: 1px solid var(--gold);
-  color: #fff;
-  padding: 6px;
+/* RECEITA – INPUT LUXURY */
+#totalIncome{
+  background:transparent;
+  border:none;
+  border-bottom:1px solid var(--gold-main);
+  font-size:22px;
+  color:var(--gold-main);
+  width:140px;
+  outline:none;
 }
 
-select option {
-  background-color: #1b1e2b;
-  color: #fff;
+body.light #totalIncome{
+  border-bottom:1px solid var(--light-gold);
+  color:var(--light-gold);
 }
 
-button {
-  background: transparent;
-  border: 1px solid var(--gold);
-  color: var(--gold);
-  padding: 6px 12px;
-  cursor: pointer;
+/* MÉTRICAS */
+.summary{
+  display:flex;
+  flex-wrap:wrap;
+  gap:30px;
+  margin-top:20px;
+  align-items:center;
 }
 
-button:hover {
-  background: var(--gold);
-  color: #000;
+.metric-label{
+  font-size:12px;
+  opacity:0.6;
 }
 
-main {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
-  gap: 16px;
-  padding: 20px;
+.metric-value{
+  font-size:22px;
+  font-weight:bold;
 }
 
-.month-card {
-  border: 1px solid #333;
-  padding: 15px;
-  border-radius: 8px;
+/* BOTÕES PADRÃO PREMIUM */
+.btn-minimal{
+  background:transparent;
+  border:1px solid var(--gold-main);
+  color:var(--gold-main);
+  padding:8px 22px;
+  border-radius:25px;
+  cursor:pointer;
+  font-size:14px;
+  transition:0.3s;
 }
 
-.month-card h3 {
-  color: var(--gold);
-  margin-bottom: 10px;
+.btn-minimal:hover{
+  background:var(--gold-main);
+  color:#000;
 }
 
-.summary-line {
-  display: flex;
-  justify-content: space-between;
-  cursor: pointer;
-  margin: 6px 0;
+body.light .btn-minimal{
+  border:1px solid var(--light-gold);
+  color:var(--light-gold);
 }
 
-.summary-line span {
-  font-weight: bold;
+/* MESES */
+main{
+  padding:40px 60px;
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(280px,1fr));
+  gap:35px;
 }
 
-.details {
-  font-size: 13px;
-  margin-left: 10px;
-  margin-top: 5px;
+.month-card{
+  background:rgba(0,0,0,0.92);
+  padding:25px;
+  border-radius:20px;
+  border:1px solid rgba(212,175,55,0.15);
+  transition:0.4s;
 }
 
-.details div {
-  border-bottom: 1px solid #333;
-  padding: 3px 0;
+body.light .month-card{
+  background:var(--light-card);
+  border:1px solid var(--light-gold);
 }
 
-.hidden {
-  display: none;
+.month-card:hover{
+  transform:translateY(-6px);
+  border-color:var(--gold-main);
+  box-shadow:
+    0 0 30px var(--gold-glow),
+    0 15px 35px rgba(0,0,0,0.6);
 }
 
-/* MODAIS */
-.modal {
-  position: fixed;
-  inset: 0;
-  background: rgba(0,0,0,0.85);
-  display: flex;
-  justify-content: center;
-  align-items: center;
+/* RODAPÉ */
+.footer-controls{
+  text-align:center;
+  margin:60px 0 80px 0;
+  opacity:0.8;
 }
 
-.modal.hidden {
-  display: none;
+.footer-controls button{
+  margin:0 12px;
 }
 
-.modal-content {
-  background: #111;
-  padding: 20px;
-  border-radius: 10px;
-  width: 420px;
+/* MODAL */
+.modal{
+  position:fixed;
+  inset:0;
+  background:rgba(0,0,0,0.95);
+  display:flex;
+  justify-content:center;
+  align-items:center;
 }
 
-.modal-content h2 {
-  margin-top: 0;
-  color: var(--gold);
+.modal.hidden{display:none;}
+
+.modal-content{
+  background:#140000;
+  padding:35px;
+  border-radius:20px;
+  width:380px;
 }
 
-.manage-item {
-  display: flex;
-  justify-content: space-between;
-  border-bottom: 1px solid #333;
-  padding: 6px 0;
-  font-size: 13px;
+body.light .modal-content{
+  background:#fff;
 }
 
-.manage-item button {
-  border-color: var(--danger);
-  color: var(--danger);
-}
-
-/* ============================= */
-/* AJUSTES FINOS – VISUAL */
-/* ============================= */
-
-/* Total do mês (branco + vermelho) */
-.month-total {
-  margin-top: 6px;
-  font-size: 14px;
-  font-weight: bold;
-  color: #ff4d4d;
-}
-
-/* Garantir contraste dos selects */
-select {
-  background-color: #1b1e2b !important;
-  color: #ffffff !important;
-}
-
-select option {
-  background-color: #1b1e2b;
-  color: #ffffff;
-}
-
-/* Botões de gerenciamento */
-.manage-btn {
-  border: 1px solid #ff4d4d;
-  color: #ff4d4d;
-}
-
-.manage-btn:hover {
-  background: #ff4d4d;
-  color: #000;
-}
-
-.manage-btn.disabled {
-  opacity: 0.4;
-  cursor: not-allowed;
-  filter: grayscale(100%);
-}
-
-/* ===================== */
-/* CORREÇÃO DE CLIQUE */
-/* ===================== */
-
-.top-bar button {
-  pointer-events: auto;
-  position: relative;
-  z-index: 10;
-}
-
-.modal.hidden {
-  display: none !important;
-}
-
-.trash-btn {
-  background: transparent;
-  border: none;
-  color: #ff5c5c;
-  cursor: pointer;
-  font-size: 16px;
-  opacity: 0.6;
-}
-
-.trash-btn:hover {
-  opacity: 1;
-  transform: scale(1.1);
-}
-
-.months-more-btn {
-  margin-top: 20px;
-  text-align: center;
-}
-
-.months-more-btn button {
-  font-size: 14px;
-  padding: 8px 20px;
-  border-radius: 20px;
-}
-
-.app-title {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-}
-
-.app-logo {
-  width: 42px;
-  height: auto;
-}
-
-#pinModal {
-  z-index: 9999;
-}
-
-#pinInput {
-  background: #1b1e2b;
-  border: 1px solid var(--gold);
-  color: #fff;
-  padding: 10px;
-  width: 120px;
+.hidden{
+  display:none !important;
 }
