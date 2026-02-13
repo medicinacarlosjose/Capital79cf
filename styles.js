@@ -91,75 +91,102 @@ function deleteExpense(key, index) {
 
 function generateMonths() {
   monthsContainer.innerHTML = "";
+  const now = new Date();
 
-  const currentKey = "MAR-2026"; // FIXO COMO VOCÊ PEDIU
+  for (let i = 0; i < monthsToShow; i++) {
 
-  for (let i = -12; i <= 12; i++) {
-    const d = new Date(2026, 2 + i, 1); // Março é índice 2
+    const d = new Date(now.getFullYear(), now.getMonth() + 1 + i, 1);
     const key = `${months[d.getMonth()]}-${d.getFullYear()}`;
+    if (!data[key]) data[key] = [];
 
-    if (!Array.isArray(data[key])) data[key] = [];
+    const vista = data[key].filter(e => e.type === "vista");
+    const parcelado = data[key].filter(e => e.type === "parcelado");
+    const recorrente = data[key].filter(e => e.type === "recorrente");
 
-    const total = (data[key] || []).reduce((s, e) => s + e.value, 0);
+    // 🔥 NOVA REGRA DO "MEU VALOR"
+    const meuValor = data[key].filter(e =>
+      e.type === "recorrente" ||
+      (
+        (e.type === "vista" || e.type === "parcelado") &&
+        e.payer === "Carlos França"
+      )
+    );
 
-    const avista = data[key]
-      .filter(e => e.type === "vista")
-      .reduce((s, e) => s + e.value, 0);
+    const sum = arr => arr.reduce((s, e) => s + e.value, 0);
 
-    const parcelado = data[key]
-      .filter(e => e.type === "parcelado")
-      .reduce((s, e) => s + e.value, 0);
-
-    const recorrente = data[key]
-      .filter(e => e.type === "recorrente")
-      .reduce((s, e) => s + e.value, 0);
-
-    const meuValor = total;
+    const totalVista = sum(vista);
+    const totalParcelado = sum(parcelado);
+    const totalRecorrente = sum(recorrente);
+    const totalMeu = sum(meuValor);
+    const totalMes = totalVista + totalParcelado + totalRecorrente;
 
     const card = document.createElement("div");
     card.className = "month-card";
 
     card.innerHTML = `
-      <h3>${months[d.getMonth()]} ${String(d.getFullYear()).slice(-2)}
-        <span style="color:red; font-size:13px;">
-          Total: R$ ${total.toFixed(2)}
-        </span>
-      </h3>
-
-      <div class="month-block">
-        À vista <span style="float:right">R$ ${avista.toFixed(2)} [+]</span>
-      </div>
-
-      <div class="month-block">
-        Parcelado <span style="float:right">R$ ${parcelado.toFixed(2)} [+]</span>
-      </div>
-
-      <div class="month-block">
-        Recorrente <span style="float:right">R$ ${recorrente.toFixed(2)} [+]</span>
-      </div>
-
-      <div class="month-block" style="font-weight:bold;">
-        Meu valor <span style="float:right">R$ ${meuValor.toFixed(2)}</span>
-      </div>
-
-      ${
-        key === currentKey
-        ? `
-        <div class="month-block" style="font-weight:bold; margin-top:4px;">
-          Saldo atual 
-          <span style="float:right">
-            R$ ${(income - meuValor).toFixed(2)}
+      <div style="display:flex; justify-content:space-between; align-items:center;">
+        <h3 style="margin:0;">
+          ${formatMonth(key)}
+          <span style="color:#ff4d4d; font-size:14px; margin-left:8px;">
+            Total: R$ ${totalMes.toFixed(2)}
           </span>
-        </div>
-        `
-        : ""
-      }
+        </h3>
+        <button class="trash-btn" onclick="confirmClearMonth('${key}')">🗑️</button>
+      </div>
+
+      <div class="summary-line" onclick="toggleDetails(this)">
+        <span>À vista</span><span>R$ ${totalVista.toFixed(2)} [+]</span>
+      </div>
+      <div class="details hidden">
+        ${vista.map((e, idx) => `
+          <div>
+            R$ ${e.value.toFixed(2)} • ${e.payer}
+            <button class="trash-btn" onclick="deleteExpense('${key}', ${idx})">🗑</button>
+          </div>
+        `).join("")}
+      </div>
+
+      <div class="summary-line" onclick="toggleDetails(this)">
+        <span>Parcelado</span><span>R$ ${totalParcelado.toFixed(2)} [+]</span>
+      </div>
+      <div class="details hidden">
+        ${parcelado.map((e, idx) => `
+          <div>
+            R$ ${e.value.toFixed(2)} • ${e.card} • ${e.payer}
+            <button class="trash-btn" onclick="deleteExpense('${key}', ${idx})">🗑</button>
+          </div>
+        `).join("")}
+      </div>
+
+      <div class="summary-line" onclick="toggleDetails(this)">
+        <span>Recorrente</span><span>R$ ${totalRecorrente.toFixed(2)} [+]</span>
+      </div>
+      <div class="details hidden">
+        ${recorrente.map((e, idx) => `
+          <div>
+            R$ ${e.value.toFixed(2)} • ${e.payer}
+            <button class="trash-btn" onclick="deleteExpense('${key}', ${idx})">🗑</button>
+          </div>
+        `).join("")}
+      </div>
+
+      <div class="summary-line">
+  <span><strong>Meu valor</strong></span>
+  <span><strong>R$ ${totalMeu.toFixed(2)}</strong></span>
+</div>
+
+${key === "MAR-2026" ? `
+<div class="summary-line">
+  <span><strong>Saldo atual</strong></span>
+  <span><strong>R$ ${( (parseFloat(totalIncome.value) || 0) - totalMeu ).toFixed(2)}</strong></span>
+</div>
+` : ""}
     `;
 
     monthsContainer.appendChild(card);
   }
 
-  updateTopSummary();
+  updateTop();
 }
 
 /* ===================== TOPO ===================== */
