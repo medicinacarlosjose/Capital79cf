@@ -2,141 +2,441 @@
 <html lang="pt-BR">
 <head>
 <meta charset="UTF-8">
-<title>CAPITAL 79 — Ultra Wealth Management</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<link rel="manifest" href="manifest.json">
-<link rel="stylesheet" href="app.css">
+<title>Formatura Medicina · UFS</title>
+
+<style>
+:root{
+  --gold:#d4af37;
+  --gold2:#f7e27a;
+}
+
+/* ================= FUNDO ================= */
+
+body{
+  margin:0;
+  font-family:'Segoe UI',sans-serif;
+  background: radial-gradient(circle at top,#1a1f3a,#090a12 70%);
+  color:white;
+  overflow-x:hidden;
+}
+
+/* Partículas */
+canvas{
+  position:fixed;
+  inset:0;
+  z-index:-1;
+}
+
+/* ================= BORDADO ================= */
+
+.container{
+  max-width:950px;
+  margin:50px auto;
+  padding:4px;
+  border-radius:30px;
+  background:linear-gradient(45deg,var(--gold),var(--gold2),var(--gold));
+  background-size:300% 300%;
+  animation:borderFlow 6s linear infinite;
+}
+
+@keyframes borderFlow{
+  0%{background-position:0% 50%}
+  50%{background-position:100% 50%}
+  100%{background-position:0% 50%}
+}
+
+.card{
+  background:rgba(15,18,35,0.95);
+  border-radius:26px;
+  padding:45px;
+}
+
+/* ================= FOTO ================= */
+
+.profile-wrapper{
+  display:flex;
+  justify-content:center;
+  margin-bottom:25px;
+}
+.profile-img{
+  width:140px;
+  height:140px;
+  border-radius:50%;
+  object-fit:cover;
+  border:4px solid var(--gold);
+  box-shadow:0 0 40px rgba(212,175,55,0.9);
+}
+
+/* ================= TEXTOS ================= */
+
+h1{
+  text-align:center;
+  letter-spacing:3px;
+  font-size:30px;
+  background:linear-gradient(135deg,var(--gold),var(--gold2));
+  -webkit-background-clip:text;
+  -webkit-text-fill-color:transparent;
+}
+
+.subtitle{
+  text-align:center;
+  opacity:.85;
+  margin-bottom:25px;
+}
+
+.value-label{
+  text-align:center;
+  font-size:14px;
+  letter-spacing:3px;
+  font-weight:600;
+  color:var(--gold2);
+}
+
+.counter{
+  text-align:center;
+  font-size:52px;
+  font-weight:800;
+  margin:20px 0;
+  background:linear-gradient(135deg,var(--gold),var(--gold2));
+  -webkit-background-clip:text;
+  -webkit-text-fill-color:transparent;
+}
+
+/* ================= PROGRESSO ================= */
+
+.progress-container{
+  background:#1b1e2f;
+  height:30px;
+  border-radius:50px;
+  overflow:hidden;
+  box-shadow:inset 0 0 15px #000;
+}
+
+.progress-bar{
+  height:100%;
+  width:0%;
+  background:linear-gradient(90deg,var(--gold),var(--gold2));
+  box-shadow:0 0 30px var(--gold);
+  transition:width 2s ease;
+}
+
+.percent{
+  text-align:center;
+  margin:15px 0;
+}
+
+.meta{
+  display:flex;
+  justify-content:space-between;
+  font-size:14px;
+  opacity:.8;
+}
+
+/* ================= PIX ================= */
+
+.pix{
+  margin-top:35px;
+  background:#14172b;
+  padding:20px;
+  border-radius:15px;
+  text-align:center;
+}
+
+.copy-btn{
+  background:linear-gradient(135deg,var(--gold),var(--gold2));
+  border:none;
+  padding:10px 20px;
+  border-radius:10px;
+  font-weight:600;
+  cursor:pointer;
+}
+
+/* ================= DOADORES ================= */
+
+.donor-rotator{
+  margin-top:40px;
+  text-align:center;
+  min-height:80px;
+}
+
+.donor-message{
+  background:#111425;
+  display:inline-block;
+  padding:12px 20px;
+  border-radius:15px;
+  margin:6px;
+  border:1px solid rgba(212,175,55,0.4);
+  animation:fadeIn .8s ease;
+}
+
+@keyframes fadeIn{
+  from{opacity:0;transform:translateY(10px)}
+  to{opacity:1;transform:translateY(0)}
+}
+
+/* ================= BOTÃO FLUTUANTE ================= */
+
+.help-btn{
+  position:fixed;
+  bottom:25px;
+  right:25px;
+  background:linear-gradient(135deg,var(--gold),var(--gold2));
+  padding:14px 24px;
+  border-radius:50px;
+  font-weight:700;
+  cursor:pointer;
+  box-shadow:0 0 25px rgba(212,175,55,0.9);
+  transition:.3s;
+}
+
+.help-btn:hover{
+  transform:scale(1.08);
+}
+
+/* ================= RESPONSIVO ================= */
+
+@media (max-width:768px){
+
+  .container{
+    margin:20px 12px;
+  }
+
+  .card{
+    padding:25px 18px;
+  }
+
+  h1{font-size:20px;}
+  .counter{font-size:34px;}
+  .profile-img{width:100px;height:100px;}
+  .meta{flex-direction:column;align-items:center;gap:5px;}
+  .copy-btn{width:100%;margin-top:10px;}
+  .help-btn{bottom:15px;right:15px;padding:10px 18px;font-size:14px;}
+}
+
+@media (max-width:420px){
+  .counter{font-size:28px;}
+  h1{font-size:18px;}
+  .profile-img{width:85px;height:85px;}
+}
+
+.footer{
+  margin-top:45px;
+  text-align:center;
+  line-height:1.6;
+}
+
+</style>
 </head>
 
 <body>
 
-<!-- PIN LOCK -->
-<div id="pinLock">
-  <div class="modal-content" style="text-align:center">
-    <h2>🔒 Acesso Restrito</h2>
-    <input id="pinInput" type="password" maxlength="4" placeholder="••••">
-    <div style="margin-top:15px;">
-      <button class="btn-minimal" onclick="confirmPin()">Entrar</button>
-    </div>
-    <div style="margin-top:20px;font-size:12px;opacity:0.4;">
-      Carlos França
-    </div>
-  </div>
+<canvas id="particles"></canvas>
+
+<div class="container">
+<div class="card">
+
+<div class="profile-wrapper">
+  <img src="perfil.png" class="profile-img">
 </div>
 
-<header class="top-bar hidden" id="mainApp">
+<h1>FORMATURA MEDICINA · UFS</h1>
+<div class="subtitle">DOE a partir de R$1,00</div>
 
-  <div>
-    <h1 class="app-title">CAPITAL 79</h1>
-    <div class="signature-tag">ULTRA WEALTH MANAGEMENT</div>
-  </div>
+<div class="value-label">VALOR ARRECADADO</div>
+<div class="counter" id="counter"></div>
 
-  <div class="summary">
-
-    <div>
-      <div class="metric-label">Receita</div>
-      <input type="number" id="totalIncome"
-        placeholder="0"
-        oninput="updateTop(); persist();">
-    </div>
-
-    <div>
-      <div class="metric-label">Despesa (Mês Atual)</div>
-      <div class="metric-value" id="currentExpense">R$ 0,00</div>
-    </div>
-
-    <div>
-      <div class="metric-label">Resultado</div>
-      <div class="metric-value" id="balance">R$ 0,00</div>
-    </div>
-
-    <button class="btn-minimal" onclick="toggleTheme()">🌗</button>
-    <button class="btn-minimal" onclick="openModal()">＋ Lançamento</button>
-
-  </div>
-</header>
-
-<main id="monthsContainer" class="hidden"></main>
-<div class="footer-controls hidden" id="footerControls">
-
-  <button class="btn-minimal" onclick="toggleFiveYears()">
-    + Meses (5 anos)
-  </button>
-
-  <button class="btn-minimal" onclick="exportData()">
-    Exportar
-  </button>
-
-  <button class="btn-minimal" onclick="triggerImport()">
-    Importar
-  </button>
-
-  <button class="btn-minimal" onclick="generateAnnualPDF()">
-    Gerar PDF Anual
-  </button>
-
-  <input type="file"
-         id="hiddenImport"
-         accept=".json"
-         onchange="importData(event)"
-         style="display:none;">
-
+<div class="progress-container">
+  <div class="progress-bar" id="progressBar"></div>
 </div>
 
-<div class="footer-controls hidden" id="footerControls">
-  <button class="btn-minimal" onclick="exportData()">Exportar</button>
-  <button class="btn-minimal" onclick="triggerImport()">Importar</button>
-  <button class="btn-minimal" onclick="toggleFiveYears()">+ 5 anos</button>
-  <input type="file" id="hiddenImport" hidden accept=".json" onchange="importData(event)">
+<div class="percent" id="percent"></div>
+
+<div class="meta">
+<span id="meta"></span>
+<span id="restante"></span>
 </div>
 
-<!-- MODAL -->
-<div id="modal" class="modal hidden">
-  <div class="modal-content">
-    <h2>Novo Lançamento</h2>
-
-    <input id="expenseValue" type="number" placeholder="Valor">
-
-    <select id="expenseType" onchange="handleType()">
-      <option value="vista">À vista</option>
-      <option value="parcelado">Parcelado</option>
-      <option value="recorrente">Recorrente</option>
-    </select>
-
-    <select id="expenseCard" class="hidden">
-      <option>Visa</option>
-      <option>Master</option>
-      <option>NuBank</option>
-      <option>Outro</option>
-    </select>
-
-    <input id="otherCard" class="hidden" placeholder="Outro cartão">
-
-    <input id="expenseInstallments" class="hidden" type="number" placeholder="Parcelas">
-
-    <select id="expensePayer" onchange="handlePayer()">
-      <option>Carlos França</option>
-      <option>Outro</option>
-    </select>
-
-    <input id="otherPayer" class="hidden" placeholder="Nome">
-
-    <select id="expenseMonth">
-      <option>JAN</option><option>FEV</option><option>MAR</option>
-      <option>ABR</option><option>MAI</option><option>JUN</option>
-      <option>JUL</option><option>AGO</option><option>SET</option>
-      <option>OUT</option><option>NOV</option><option>DEZ</option>
-    </select>
-
-    <div style="margin-top:15px;">
-      <button class="btn-minimal" onclick="closeModal()">Cancelar</button>
-      <button class="btn-minimal" onclick="saveExpense()">Salvar</button>
-    </div>
-  </div>
+<div class="pix" id="pixArea">
+<strong>CHAVE PIX</strong>
+<div>medicinacarlosjose@gmail.com</div>
+<button class="copy-btn" onclick="copyPix()">📋 Copiar chave PIX</button>
 </div>
 
-<script src="styles.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+<div class="donor-rotator" id="rotator"></div>
+
+<div class="footer">
+Concluir a graduação é um desafio de resistência.<br>
+No último ano surge um novo obstáculo: o pacote mais simples da formatura custa quase R$9.000,00.<br><br>
+<strong>Doe! Conquiste comigo essa nova etapa.</strong><br>
+Deus te abençoe!
+</div>
+
+</div>
+</div>
+
+<div class="help-btn" onclick="helpNow()">💛 Quero ajudar</div>
+
+<script>
+
+/* ================= META AUTOMÁTICA ================= */
+
+let meta=8765;
+let arrecadado=2087.19; 
+
+let percentual=(arrecadado/meta)*100;
+let restante=meta-arrecadado;
+
+document.getElementById("counter").innerText="R$ "+arrecadado.toFixed(2);
+document.getElementById("percent").innerText=percentual.toFixed(2)+"% da meta alcançada";
+document.getElementById("meta").innerText="Meta: R$ "+meta.toFixed(2);
+document.getElementById("restante").innerText="Restante: R$ "+restante.toFixed(2);
+document.getElementById("progressBar").style.width=percentual+"%";
+
+/* ================= PIX ================= */
+
+function copyPix(){
+  navigator.clipboard.writeText("medicinacarlosjose@gmail.com");
+  alert("Chave PIX copiada!");
+}
+
+function helpNow(){
+  navigator.clipboard.writeText("medicinacarlosjose@gmail.com");
+  document.getElementById("pixArea").scrollIntoView({behavior:"smooth"});
+  alert("Chave PIX copiada! Muito obrigado pelo apoio 💛");
+}
+
+/* ================= DOADORES ================= */
+
+/* ================= DOADORES ORDEM FIXA COM FRASES ÚNICAS ================= */
+
+const names = [
+"Terezinha","Luciana","Cristiana","Flávia","Edcleiton","Fabiano","Janete","Gilma","Eduardo","George","Cristiano","Paloma","Antônio","Murilo","Auxiliadora","Alisson","Lais","Juscileide","Gilvan","Daniela","Vivian","Edla","Rafaela","Gabriel","Thaiza","Miguel","Lidiane","Elenice","Julio","Robson","Maria Elain","Fagner","Fabiana","Wagner","Dilza","Luiz Eduardo","Luiz Carlos","Ingrid","Daiane","Sergio Santana","Rayanne","Ro","Suely","Adriana","Adriano","Aelson","Altemaria","Amilton","Ana Luiza","Ana Paula","Andre William","Andre Luiz","Antonio Barbosa","Augusto","Carlos Alberto","Dalila Costa","Damião","Daniel","Daniela","Deivisson","Edmilson","Fernando Gois","Fernando Sandes","Felipe","Giclecio","Gladiston","Greziele","Hortencia","Isis","Isllainne","Ivanete","Jaillen","Jailton Filho","Jefferson","Jose Cleones","Jose Edleluson","Júlia Beatriz","Laisa","Luana","Djanira","Patricia","Raylane Dias","Juliana","Kamile","Kathleyn","Kelvin","Kemelly","Larisse","Leiri","Luam de Oliveira","Luana Cristina","Marconiel","Chaves","Dida","Mariah Clara","Marcel Felipe","Nadja","Osmario","Priscila","Raiane","Rivanete","Ronieric","Rosana Reis","Rosilda","Rubens","Samara","Samuel","Sandro","Simone Flora","Tais","Talyta","Thalucha","Valeria","Vinicius","Wendell" 
+];
+
+const phrases = [
+"seu incentivo transforma esse sonho em realidade!", 
+"você é parte essencial dessa caminhada!", 
+"sua colaboração faz tudo valer a pena!", 
+"seu carinho impulsiona essa conquista!", 
+"você fortalece cada passo dessa trajetória!", 
+"sua participação torna isso possível!", 
+"seu apoio sustenta esse projeto!", 
+"você ajuda a escrever essa história!", 
+"sua generosidade constrói futuros!", 
+"seu gesto torna tudo mais especial!", 
+"você faz esse sonho ganhar força!", 
+"sua ajuda é combustível para seguir!", 
+"seu apoio é base dessa realização!", 
+"você é fundamental nessa vitória!", 
+"sua contribuição deixa tudo mais leve!", 
+"seu incentivo dá sentido a cada esforço!", 
+"você está marcando presença nesse marco!", 
+"sua atitude faz esse objetivo crescer!", 
+"seu apoio renova minhas energias!", 
+"você compartilha dessa realização!", 
+"sua colaboração faz esse plano acontecer!", 
+"seu gesto ecoa em cada conquista!", 
+"você é parte dessa construção!", 
+"sua ajuda torna tudo mais possível!", 
+"seu apoio engrandece essa jornada!", 
+"você contribui para cada avanço!", 
+"sua generosidade abre caminhos!", 
+"seu incentivo fortalece essa missão!", 
+"você caminha ao meu lado nessa meta!", 
+"sua confiança impulsiona meus sonhos!", 
+"seu apoio transforma desafios em conquistas!", 
+"você faz essa meta ganhar vida!", 
+"sua colaboração é essencial nessa etapa!", 
+"seu gesto inspira continuidade!", 
+"você fortalece essa realização!", 
+"sua ajuda torna cada detalhe possível!", 
+"seu apoio é parte dessa celebração!", 
+"você é peça-chave nesse momento!", 
+"sua contribuição ilumina o percurso!", 
+"seu incentivo torna esse sonho coletivo!", 
+"você soma forças nessa vitória!", 
+"sua generosidade faz tudo florescer!", 
+"seu apoio constrói cada resultado!", 
+"você ajuda a tornar isso inesquecível!", 
+"sua presença fortalece esse projeto!", 
+"seu gesto carrega significado profundo!", 
+"você faz parte desse grande passo!", 
+"sua ajuda transforma intenção em ação!", 
+"seu apoio torna essa conquista ainda maior!", 
+"você é parte viva desse sonho!" 
+];
+
+let donorMessages = names.map((name, index) => {
+  return name + ", " + phrases[index % phrases.length];
+});
+
+let currentIndex = 0;
+const rotator = document.getElementById("rotator");
+
+function showNextDonors(){
+  rotator.innerHTML = "";
+  let quantity = Math.floor(Math.random()*3)+1;
+
+  for(let i=0; i<quantity; i++){
+
+    if(currentIndex >= donorMessages.length){
+      currentIndex = 0;
+    }
+
+    let div = document.createElement("div");
+    div.className = "donor-message";
+    div.innerText = donorMessages[currentIndex];
+
+    rotator.appendChild(div);
+    currentIndex++;
+  }
+}
+
+showNextDonors();
+setInterval(showNextDonors, 4000);
+
+
+/* ================= PARTÍCULAS ================= */
+
+const canvas=document.getElementById("particles");
+const ctx=canvas.getContext("2d");
+
+function resizeCanvas(){
+  canvas.width=window.innerWidth;
+  canvas.height=window.innerHeight;
+}
+resizeCanvas();
+window.addEventListener("resize",resizeCanvas);
+
+let particles=[];
+for(let i=0;i<70;i++){
+  particles.push({
+    x:Math.random()*canvas.width,
+    y:Math.random()*canvas.height,
+    r:Math.random()*2+1,
+    d:Math.random()*0.6+0.2
+  });
+}
+
+function draw(){
+  ctx.clearRect(0,0,canvas.width,canvas.height);
+  ctx.fillStyle="rgba(212,175,55,0.6)";
+  particles.forEach(p=>{
+    ctx.beginPath();
+    ctx.arc(p.x,p.y,p.r,0,Math.PI*2);
+    ctx.fill();
+    p.y-=p.d;
+    if(p.y<0){
+      p.y=canvas.height;
+      p.x=Math.random()*canvas.width;
+    }
+  });
+  requestAnimationFrame(draw);
+}
+draw();
+
+</script>
+
 </body>
 </html>
